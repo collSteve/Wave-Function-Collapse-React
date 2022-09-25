@@ -3,6 +3,8 @@ import { IGridTile } from "./tile";
 
 export interface IWFC2DFunctionGrid {
     getTile(x:number,y:number):IGridTile;
+
+    
 }
 
 export interface I2DDisplayGrid {
