@@ -1,8 +1,9 @@
 import React from "react";
+import { applyMixins } from "../../utils/language";
 import { Cord2D } from "../../utils/standard-models";
 import { IWFC2DTile, TileState } from "./tile";
 
-export class WFC2DTile extends React.Component, IWFC2DTile {
+export class WFC2DTile implements React.Component, IWFC2DTile {
     protected imageAddress: string = "";
     protected rotationAngle: number = 0;
 
@@ -19,4 +20,10 @@ export class WFC2DTile extends React.Component, IWFC2DTile {
         throw new Error("Method not implemented.");
     }
 
+    render(): React.ReactNode {
+        return ;
+    }
+
 }
+
+applyMixins(WFC2DTile, [React.Component, IWFC2DTile]);

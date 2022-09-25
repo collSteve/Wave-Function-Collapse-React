@@ -30,7 +30,6 @@ export abstract class ISampleTile extends BaseTile {
         if (this.imageAddress) return this.imageAddress;
         throw new Error("Undefined Image Address");
     }
-
 }
 
 export abstract class IGridTile extends BaseTile {
