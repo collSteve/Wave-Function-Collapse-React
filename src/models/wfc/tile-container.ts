@@ -11,7 +11,6 @@ export class RawTileContainer implements IRawTileContainer {
         this.rawTileMap = new Map();
     }
 
-
     [Symbol.iterator](): Iterator<RawTile, any, undefined> {
         return this.rawTileMap.values();
     }
