@@ -123,7 +123,7 @@ export class RawTile extends Tile {
 export class InstanceTile extends Tile {
     private _rawTileId:string;
     private _metricRotation:MetricRotationAngle;
-    private rawTile:RawTile;
+    private readonly rawTile:RawTile;
 
     constructor(args:InstanceTileArgs) {
         super(InstanceTile.convertArgs2TileArgs(args));
