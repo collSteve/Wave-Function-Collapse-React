@@ -1,8 +1,5 @@
-import { dir } from "console";
-import { ReactNode } from "react";
 import { MetricDirection2D, MetricRotationAngle } from "../../utils/enums";
-import { metricDirectionRotateFrom, metricDirectionRotateTable } from "../../utils/metric-rotation-connection-table";
-import { Cord2D } from "../../utils/standard-models";
+import { metricDirectionRotateFrom } from "../../utils/metric-rotation-connection-table";
 import { MetricConnector2D } from "./connector";
 
 export enum TileState {
