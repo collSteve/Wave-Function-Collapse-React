@@ -6,37 +6,62 @@ export enum TileState {
     UnresolvedTile
 }
 
-export abstract class BaseTile {
-    protected tileState: TileState = TileState.UnresolvedTile;
-    protected rotationAngle:number|undefined;
+export type TileArgs = {
+    imageAddress: string
+};
 
-    public getTileState(): TileState {
-        return this.tileState
+export type RawTileArgs = TileArgs;
+
+export type InstanceTileArgs = {
+    rawTile: RawTile,
+    rotation?:number,
+};
+
+export abstract class Tile {
+    protected _imageAddress: string;
+
+    constructor(args:TileArgs) {
+        this._imageAddress = args.imageAddress;
     }
 
-    getRotationAngle():number {
-        if (this.rotationAngle) return this.rotationAngle;
-        throw new Error("Undefined rotaion angle");
-
-    }
-
-    public abstract rotateImage(angle:number):void;
-} 
-
-export abstract class ISampleTile extends BaseTile {
-    protected imageAddress:string|undefined;
-
-    getImageAddress():string {
-        if (this.imageAddress) return this.imageAddress;
-        throw new Error("Undefined Image Address");
+    public get imageAddress():string {
+        return this.imageAddress
     }
 }
 
-export abstract class IGridTile extends BaseTile {
-    public abstract getGridIndex(): Cord2D
+export class RawTile extends Tile {
+    private _tileId: string;
+
+    constructor(args:RawTileArgs) {
+        super(args)
+        this._imageAddress = args.imageAddress;
+        this._tileId = this.generateId();
+    }
+
+    private generateId():string {
+        return ""; //stub
+    }
+
+    public set imageAddress(address:string) {
+        this._imageAddress = address;
+    }
+
+    get tileId():string {
+        return this.tileId
+    }
 }
 
-export abstract class IWFC2DTile extends ISampleTile implements IGridTile {
-    public abstract getGridIndex(): Cord2D;
-    public abstract render(x:number,y:number): ReactNode;
+export class InstanceTile extends Tile {
+    private _rawTileId:string;
+
+    constructor(args:InstanceTileArgs) {
+        super(InstanceTile.convertArgs2TileArgs(args));
+        this._rawTileId = args.rawTile.tileId;
+    }
+
+    public static convertArgs2TileArgs(args:InstanceTileArgs):TileArgs {
+        return {
+            imageAddress: args.rawTile.imageAddress
+        };
+    }
 }
