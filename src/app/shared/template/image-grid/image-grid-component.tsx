@@ -38,7 +38,7 @@ export default class ImageGridComponent extends React.Component<ImageGridProps> 
                 const pos = new Cord2D(x,y);
                 const image = this.imageGrid.getImageByPos(pos);
                 const cellStyle = {
-                    'fontWeight': 'bold',
+                    margin:0,
                     'width': `${this.props.imageWidth}px`,
                     'height': `${this.props.imageHeight}px`,
                     ...rotation(image.rotationDeg)
@@ -46,7 +46,7 @@ export default class ImageGridComponent extends React.Component<ImageGridProps> 
 
                 row.push(<img key={pos.toString()} style={cellStyle} src={image.imageAddress} alt=""/>);
             }
-            images.push(<div key={`row: ${y}`} className='image-grid-row'>{[...row]}</div>)
+            images.push(<div key={`row: ${y}`} className={appStyle.image_grid_row}>{[...row]}</div>)
         }
 
         return (
