@@ -1,9 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
 import { SudokuGrid, SudokuGridConstructInfoType, SudokuGridConstructMatrixInfo, SudokuGridConstructPosValueInfo } from '../models/SudokuGrid';
 import appStyles from './sudoku-page.module.css';
-import { type } from '@testing-library/user-event/dist/type';
-import { visibleMatrixToCordMatrix } from '../utils/matrix';
 import { SudokuCellType } from '../models/SudokuCell';
 
 export default class SudokuPage extends React.Component<{}, {forceUpdate:number, possibleValuesOutput:number[]}> {

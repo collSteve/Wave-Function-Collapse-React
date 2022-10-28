@@ -19,7 +19,7 @@ root.render(
       <Route path="/" element={<App />}>
         <Route path="/" element={<HomePage/>}></Route>
         <Route path="sudoku" element={<SudokuPage />} />
-        <Route path="WFC-tile-2d" element={<WFCTilePage2D />} />
+        <Route path="WFC-tile-2d" element={<WFCTilePage2D gridWidth={10} gridHeight={10} />} />
       </Route>
     </Routes>
   </BrowserRouter>
