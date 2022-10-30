@@ -1,3 +1,4 @@
+import { MetricRotationAngle } from "../../../utils/enums";
 import { Cord2D } from "../../../utils/standard-models";
 import { ImageModel } from "../../shared/models/image";
 import { IImageGrid } from "../../shared/template/image-grid/image-grid-component";
@@ -85,6 +86,12 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
             return tile;
         }
         throw new Error(`Instance tile with at position ${pos} does not exist.`);
+    }
+
+    rotateTileByPos(pos:Cord2D, rotation: MetricRotationAngle) {
+        const tile = this.getTileByPos(pos);
+
+        tile.setRotation(rotation);
     }
 
     getImageByPos(pos: Cord2D): ImageModel {

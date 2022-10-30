@@ -13,11 +13,14 @@ interface WFCTilePage2DProps{
     gridHeight:number;
 }
 
-export default class WFCTilePage2D extends React.Component<WFCTilePage2DProps> {
+interface WFCTilePage2DState{
+    tileSize: number,
+    instanceContainer: InstanceTileContainer2D;
+}
+
+export default class WFCTilePage2D extends React.Component<WFCTilePage2DProps, WFCTilePage2DState> {
     private rawTileContainer: RawTileContainer;
     private instanceContainer: InstanceTileContainer2D;
-
-    private tileSize: number;
 
     constructor(props: WFCTilePage2DProps) {
         super(props);
@@ -37,7 +40,15 @@ export default class WFCTilePage2D extends React.Component<WFCTilePage2DProps> {
         };
         this.instanceContainer = new InstanceTileContainer2D(instanceTilesArgs);
 
-        this.tileSize = 50;
+        this.state = {
+            tileSize: 50,
+            instanceContainer: this.instanceContainer
+        };
+    }
+
+    onRotationClicked() {
+        this.instanceContainer.rotateTileByPos(new Cord2D(0,0), MetricRotationAngle.CW1);
+        this.setState({instanceContainer: this.instanceContainer});
     }
 
     render(): React.ReactNode {
@@ -45,12 +56,13 @@ export default class WFCTilePage2D extends React.Component<WFCTilePage2DProps> {
         return (
             <div>
                 <div>Height: {this.instanceContainer.height}, Width: {this.instanceContainer.width}</div>
+                <button onClick={()=>this.onRotationClicked()}>Rotation</button>
                 <ImageGridComponent 
                     gridHeight={this.props.gridHeight} 
                     gridWidth={this.props.gridWidth}
-                    imageGrid={this.instanceContainer}
-                    imageHeight={this.tileSize}
-                    imageWidth={this.tileSize}/>
+                    imageGrid={this.state.instanceContainer}
+                    imageHeight={this.state.tileSize}
+                    imageWidth={this.state.tileSize}/>
             </div>
         );
     }
