@@ -1,6 +1,6 @@
 import { RawTile, RawTileArgs } from "./rawTile";
 
-export interface IRawTileContainer extends Iterable<RawTile> {
+export interface IRawTileContainer extends Iterable<[string,RawTile]> {
     getTileById(id:string):RawTile;
     defaultTileId: string;
 }
@@ -13,8 +13,8 @@ export class RawTileContainer implements IRawTileContainer {
         this.idTileMap = new Map();
     }
 
-    [Symbol.iterator](): Iterator<RawTile, any, undefined> {
-        return this.idTileMap.values();
+    [Symbol.iterator](): Iterator<[string,RawTile]> {
+        return this.idTileMap[Symbol.iterator]();
     }
 
     get defaultTileId(): string {
@@ -43,11 +43,27 @@ export class RawTileContainer implements IRawTileContainer {
         return rawTile.tileId;
     }
 
+    public addTileByImageAddress(address:string): string {
+        const args: RawTileArgs = {
+            imageAddress: address
+        }
+
+        return this.addTile(args);
+    }
+
+    public get idMap(): Map<string,RawTile> {
+        return this.idTileMap;
+    }
+
     public getTileById(id: string): RawTile {
         const rawTile = this.idTileMap.get(id);
         if (rawTile) {
             return rawTile;
         }
         throw new Error(`Rawtile with id <${id}> does not exist.`);
+    }
+
+    public getImageById(id: string) {
+        return this.getTileById(id).image;
     }
 }

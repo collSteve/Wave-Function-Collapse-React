@@ -1,6 +1,7 @@
 
 import { MetricDirection2D, MetricRotationAngle } from "../../../utils/enums";
 import { metricDirectionRotateFrom } from "../../../utils/metric-rotation-connection-table";
+import { ImageModel } from "../../shared/models/image";
 import { generate_Id } from "../../shared/utils/id-generate";
 import { MetricConnector2D } from "./connector";
 import { Tile, TileArgs } from "./tile";
@@ -12,13 +13,15 @@ export type RawTileArgs = TileArgs & {
 
 export class RawTile extends Tile {
     protected _imageAddress: string = "";
-    protected connector: MetricConnector2D|undefined;
+    protected connector: MetricConnector2D;
     private _tileId: string;
 
     constructor(args:RawTileArgs) {
         super(args)
         this._imageAddress = args.imageAddress;
         this._tileId = this.generateId();
+
+        this.connector = new MetricConnector2D([],[],[],[]);
 
         if (args.connections) {
             const [up,down,right,left] = [
@@ -95,5 +98,13 @@ export class RawTile extends Tile {
         rotation:MetricRotationAngle):string[] {
         const absoluteDir = metricDirectionRotateFrom(connectionDir,rotation);
         return this.getConnectionByDirection(absoluteDir);
+    }
+
+    setConnection(direction: MetricDirection2D, connection: string[]) {
+        this.connector.setConnection(direction, connection);
+    }
+
+    get image(): ImageModel {
+        return new ImageModel(this.imageAddress);
     }
 }

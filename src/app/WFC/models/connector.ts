@@ -40,4 +40,22 @@ export class MetricConnector2D {
         if (!left) throw new Error("Up connection not exist");
         return left;
     }
+
+    public setConnection(direction: MetricDirection2D, connection: string[]) {
+        this.connections.set(direction, connection);
+    }
+
+    public static areConnectable(c1:string[], c2:string[]): boolean {
+        if (c1.length !== c2.length) {
+            return false;
+        }
+
+        for (let i=0; i<c1.length; i++) {
+            if (c1[i] !== c2[c1.length-1-i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

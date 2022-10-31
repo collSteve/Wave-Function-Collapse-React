@@ -1,4 +1,5 @@
 import React from 'react';
+import { WFCStore } from '../app/services/wfc-raw-tile-container';
 import { ImageModel } from '../app/shared/models/image';
 import ImageGridComponent from '../app/shared/template/image-grid/image-grid-component';
 import { rotation } from '../app/shared/utils/style/rotation';
@@ -10,7 +11,8 @@ import { Cord2D } from '../utils/standard-models';
 
 interface WFCTilePage2DProps{
     gridWidth:number,
-    gridHeight:number;
+    gridHeight:number,
+    wfcStore: WFCStore
 }
 
 interface WFCTilePage2DState{
@@ -25,13 +27,13 @@ export default class WFCTilePage2D extends React.Component<WFCTilePage2DProps, W
     constructor(props: WFCTilePage2DProps) {
         super(props);
 
-        this.rawTileContainer = new RawTileContainer();
+        this.rawTileContainer = props.wfcStore.rawTileContainer;
 
-        const rawDefaultArgs: RawTileArgs = {
-            imageAddress: process.env.PUBLIC_URL + '/source-files/default-image-1.png',
-        }
+        // const rawDefaultArgs: RawTileArgs = {
+        //     imageAddress: process.env.PUBLIC_URL + '/source-files/default-image-1.png',
+        // }
 
-        this.rawTileContainer.addDefaultTile(rawDefaultArgs);
+        // this.rawTileContainer.addDefaultTile(rawDefaultArgs);
 
         const instanceTilesArgs: Instance2DGridArgs = {
             height: props.gridHeight,
