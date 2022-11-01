@@ -11,6 +11,7 @@ import {Routes, Route, BrowserRouter } from 'react-router-dom'
 import { WFCStore } from './app/services/wfc-raw-tile-container';
 import { RawTileArgs } from './app/WFC/models/rawTile';
 import WFCTRawTilePage2D from './pages/2D-raw-tile-page';
+import { MetricDirection2D } from './utils/enums';
 
 const DI = {
   wfc_store: new WFCStore()
@@ -20,9 +21,14 @@ const rawDefaultArgs: RawTileArgs = {
   imageAddress: process.env.PUBLIC_URL + '/source-files/default-image-1.png',
 }
 
-DI.wfc_store.rawTileContainer.addDefaultTile(rawDefaultArgs);
+const defaultId = DI.wfc_store.rawTileContainer.addDefaultTile(rawDefaultArgs);
 
-DI.wfc_store.rawTileContainer.addTileByImageAddress('https://play-lh.googleusercontent.com/p6kS3dCcILt9Z4vRMxHXZTbRecqnZTx5ysBVp6Qe3fDofokRLuWjRxF8J0TkMTG2gKo');
+const rawId1 = DI.wfc_store.rawTileContainer.addTileByImageAddress('https://play-lh.googleusercontent.com/p6kS3dCcILt9Z4vRMxHXZTbRecqnZTx5ysBVp6Qe3fDofokRLuWjRxF8J0TkMTG2gKo');
+
+DI.wfc_store.rawTileContainer.getTileById(defaultId).setConnection(MetricDirection2D.UP, ["A"]);
+DI.wfc_store.rawTileContainer.getTileById(rawId1).setConnection(MetricDirection2D.DOWN, ["A"]);
+
+DI.wfc_store.rawTileContainer.initializaConnectorTileMap();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

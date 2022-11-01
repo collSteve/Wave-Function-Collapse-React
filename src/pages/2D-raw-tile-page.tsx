@@ -12,7 +12,8 @@ interface WFCRawTilePage2DState {
     addRawTile: {
         imageAddress:string
     },
-    rawTileContainer: RawTileContainer
+    rawTileContainer: RawTileContainer,
+    findConnectableId:string
 }
 
 export default class WFCTRawTilePage2D extends React.Component<WFCRawTilePage2DProps, WFCRawTilePage2DState>{
@@ -24,8 +25,10 @@ export default class WFCTRawTilePage2D extends React.Component<WFCRawTilePage2DP
 
         this.state = {
             addRawTile:{imageAddress: ""},
-            rawTileContainer: this.rawTileContainer
+            rawTileContainer: this.rawTileContainer,
+            findConnectableId:""
         }
+
     }
 
     render(): React.ReactNode {
@@ -41,6 +44,7 @@ export default class WFCTRawTilePage2D extends React.Component<WFCRawTilePage2DP
                 'height': `${imageSize}px`
             };
             const a = <div key={id} style={{display:'flex', flexDirection: 'column', alignItems: 'center', width: "20%"}}>
+                <p>{rawTile.tileId}</p>
                 <img key={id} style={cellStyle} src={image.imageAddress} alt=""/>
                 <p>Image address:</p>
                 <input type="text" value={rawTile.imageAddress} onChange={()=>{}}/>
@@ -88,6 +92,17 @@ export default class WFCTRawTilePage2D extends React.Component<WFCRawTilePage2DP
                         onChange={(e)=>{this.setState({addRawTile:{imageAddress:e.target.value}})}} />
                     <input type="submit" value="Add new tile" />
                 </form>
+
+                <input type="text" name="" id="" value={this.state.findConnectableId} 
+                    onChange={(e)=>{this.setState({findConnectableId:e.target.value})}} />
+
+                <button onClick={()=>{
+                        const dirs = this.rawTileContainer.getAllConnectableTilesId(this.state.findConnectableId, MetricDirection2D.UP);
+                        for (const dir of dirs) {
+                            console.log(`Id: ${dir.id}, direction: ${dir.direction}`);
+                        }
+                    }} 
+                    value="">Find all connectables</button>
             </div>  
         );
     }

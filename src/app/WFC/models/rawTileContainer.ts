@@ -1,3 +1,5 @@
+import { MetricDirection2D } from "../../../utils/enums";
+import { ConnectorTileMap, IdDirData } from "./connector-tile-map";
 import { RawTile, RawTileArgs } from "./rawTile";
 
 export interface IRawTileContainer extends Iterable<[string,RawTile]> {
@@ -8,9 +10,11 @@ export interface IRawTileContainer extends Iterable<[string,RawTile]> {
 export class RawTileContainer implements IRawTileContainer {
     private _defaultTile: RawTile|null = null;
     private idTileMap: Map<string,RawTile>;
+    private connectorTileMap: ConnectorTileMap;
 
     constructor() {
         this.idTileMap = new Map();
+        this.connectorTileMap = new ConnectorTileMap(this);
     }
 
     [Symbol.iterator](): Iterator<[string,RawTile]> {
@@ -35,6 +39,7 @@ export class RawTileContainer implements IRawTileContainer {
     addDefaultTile(args: RawTileArgs) {
         const id = this.addTile(args);
         this.setDefaultTileById(id);
+        return id;
     }
 
     public addTile(args: RawTileArgs): string {
@@ -65,5 +70,14 @@ export class RawTileContainer implements IRawTileContainer {
 
     public getImageById(id: string) {
         return this.getTileById(id).image;
+    }
+
+    public getAllConnectableTilesId(id: string, direction: MetricDirection2D): IdDirData[] {
+        
+        return this.connectorTileMap.getAllConnectableTiles(id, direction);
+    }
+
+    public initializaConnectorTileMap() {
+        this.connectorTileMap.init(this);
     }
 }
