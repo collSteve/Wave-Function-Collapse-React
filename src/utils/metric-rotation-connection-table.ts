@@ -1,4 +1,4 @@
-import { MetricDirection2D, metricRotation2Index, MetricRotationAngle, REVERSE_METRIC_DIRECTION_ORDER } from "./enums";
+import { index2MetricRotation, MetricDirection2D, metricRotation2Index, MetricRotationAngle, METRIC_DIRECTION_ORDER, REVERSE_METRIC_DIRECTION_ORDER } from "./enums";
 import { EnumDictionary } from "./native-extension-types";
 
 export const metricDirectionRotateTable:EnumDictionary<MetricDirection2D,EnumDictionary<MetricRotationAngle,MetricDirection2D>> = {
@@ -28,11 +28,28 @@ export const metricDirectionRotateTable:EnumDictionary<MetricDirection2D,EnumDic
     }
 }
 
-export function metricDirectionRotateFrom(currentDir:MetricDirection2D, rotation:MetricRotationAngle) {
+export function absoluteDirectionFromRotatedDirection(currentDir:MetricDirection2D, rotation:MetricRotationAngle) {
 
     const currentDirIndex = REVERSE_METRIC_DIRECTION_ORDER.findIndex((item)=>item===currentDir);
 
     const fromDirIndex = (currentDirIndex + metricRotation2Index[rotation]) % REVERSE_METRIC_DIRECTION_ORDER.length;
 
     return REVERSE_METRIC_DIRECTION_ORDER[fromDirIndex];
+}
+
+export const ALL_METRIC_ROTATIONS: MetricRotationAngle[] = [MetricRotationAngle.CW1,
+MetricRotationAngle.CW2, MetricRotationAngle.CW3, MetricRotationAngle.O];
+
+/**
+ * @param dirA 
+ * @param dirB 
+ * @return rotation how much angle to rotate dirA to dirB
+ */
+export function rotationByRotatingDirA2B(dirA:MetricDirection2D, dirB: MetricDirection2D): MetricRotationAngle {
+    const dirAIndex = METRIC_DIRECTION_ORDER.findIndex((item)=>item===dirA);
+    const dirBIndex = METRIC_DIRECTION_ORDER.findIndex((item)=>item===dirB);
+
+    const stepToRotate = (dirBIndex - dirAIndex) % METRIC_DIRECTION_ORDER.length;
+    
+    return index2MetricRotation[stepToRotate];
 }

@@ -5,6 +5,8 @@ import { RawTile, RawTileArgs } from "./rawTile";
 export interface IRawTileContainer extends Iterable<[string,RawTile]> {
     getTileById(id:string):RawTile;
     defaultTileId: string;
+    nonDefaultRawTileIds: string[];
+    getAllConnectableTilesId(id: string, direction: MetricDirection2D): IdDirData[]
 }
 
 export class RawTileContainer implements IRawTileContainer {
@@ -30,6 +32,16 @@ export class RawTileContainer implements IRawTileContainer {
             return this._defaultTile;
         }
         throw new Error("Default tile does not exist in raw tile container.")
+    }
+
+    get nonDefaultRawTileIds(): string[] {
+        const ids = [];
+        for (const [rawTileId, tile] of this.idTileMap) {
+            if (rawTileId !== this.defaultTileId) {
+                ids.push(rawTileId);
+            }
+        }
+        return ids;
     }
 
     setDefaultTileById(id: string) {
@@ -77,6 +89,11 @@ export class RawTileContainer implements IRawTileContainer {
         return this.connectorTileMap.getAllConnectableTiles(id, direction);
     }
 
+    /**
+     * for constructing connectoir map from rawTile in container
+     * This method need to be called every time a new change to raw tiles connectors 
+     * (add a new raw tile, update rawtile connectors)
+     */
     public initializaConnectorTileMap() {
         this.connectorTileMap.init(this);
     }

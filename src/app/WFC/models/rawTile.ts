@@ -1,6 +1,6 @@
 
 import { MetricDirection2D, MetricRotationAngle } from "../../../utils/enums";
-import { metricDirectionRotateFrom } from "../../../utils/metric-rotation-connection-table";
+import { absoluteDirectionFromRotatedDirection } from "../../../utils/metric-rotation-connection-table";
 import { ImageModel } from "../../shared/models/image";
 import { generate_Id } from "../../shared/utils/id-generate";
 import { MetricConnector2D } from "./connector";
@@ -96,7 +96,7 @@ export class RawTile extends Tile {
     public getAbsoluteConnectionWithRotation(
         connectionDir:MetricDirection2D, 
         rotation:MetricRotationAngle):string[] {
-        const absoluteDir = metricDirectionRotateFrom(connectionDir,rotation);
+        const absoluteDir = absoluteDirectionFromRotatedDirection(connectionDir,rotation);
         return this.getConnectionByDirection(absoluteDir);
     }
 

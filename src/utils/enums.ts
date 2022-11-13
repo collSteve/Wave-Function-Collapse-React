@@ -34,3 +34,18 @@ export const metricRotation2Index:EnumDictionary<MetricRotationAngle,number> = {
     [MetricRotationAngle.CW2]:2,
     [MetricRotationAngle.CW3]:3,
 }
+
+export const index2MetricRotation:{[key:number]:MetricRotationAngle} = {
+    0:MetricRotationAngle.O,
+    1:MetricRotationAngle.CW1,
+    2:MetricRotationAngle.CW2,
+    3:MetricRotationAngle.CW3,
+
+}
+
+export const OppositeDirection: EnumDictionary<MetricDirection2D,MetricDirection2D> = {
+    [MetricDirection2D.UP]: MetricDirection2D.DOWN,
+    [MetricDirection2D.RIGHT]: MetricDirection2D.LEFT,
+    [MetricDirection2D.DOWN]: MetricDirection2D.UP,
+    [MetricDirection2D.LEFT]: MetricDirection2D.RIGHT
+}

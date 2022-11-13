@@ -76,4 +76,15 @@ export class ConnectorTileMap {
         }
         throw new Error(`Raw tile Id ${id} does not exist.`);
     }
+
+    getRandomConnectableTile(id:string, direction:MetricDirection2D, randomFunc?:(list:IdDirData[])=>IdDirData) {
+        const connectableIdDirs: IdDirData[] = this.getAllConnectableTiles(id, direction);
+
+        if (connectableIdDirs.length <= 0) return null;
+
+        let randomFunction: (list:IdDirData[])=>IdDirData = randomFunc?? 
+            function(list:IdDirData[]){ return list[Math.floor(Math.random()*list.length)]};
+
+        return randomFunction(connectableIdDirs);
+    }
 }
