@@ -1,0 +1,48 @@
+{
+    "tiles": [
+        {
+            "name":"bridge",
+            "symmetry": "I"
+        },
+        {
+            "name":"ground",
+            "symmetry": "X"
+        },
+        {
+            "name":"river",
+            "symmetry": "I"
+        },
+        {
+            "name":"riverturn",
+            "symmetry": "L"
+        },
+        {
+            "name":"road",
+            "symmetry": "I"
+        },
+        {
+            "name":"roadturn",
+            "symmetry": "L"
+        },
+        {
+            "name":"t",
+            "symmetry": "T"
+        },
+        {
+            "name":"tower",
+            "symmetry": "L"
+        },
+        {
+            "name":"wall",
+            "symmetry": "I"
+        },
+        {
+            "name":"wallriver",
+            "symmetry": "I"
+        },
+        {
+            "name":"wallroad",
+            "symmetry": "I"
+        }
+    ]
+}
