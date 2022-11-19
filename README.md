@@ -7,6 +7,9 @@
 ### Pipes:
 <img src="/public/pipes.png" alt="pipes" width="300px">
 
+### Wires:
+<img src="/public/wires.png" alt="wires" width="300px">
+
 ### To Run the app: `npm start`
 
 Runs the app in the development mode.\
