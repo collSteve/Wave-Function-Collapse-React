@@ -48,7 +48,7 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
     setup() {
         for (let x=0; x<this.width; x++) {
             for (let y=0; y< this.height; y++) {
-                this.addTileByRawId(new Cord2D(x,y), this.rawTileContainer.defaultTileId);
+                this.addTileByRawId(new Cord2D(x,y), this.unassignedTileId);
             }
         }
     }
@@ -78,7 +78,7 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
     public addTileByArgs(pos: Cord2D, args: InstanceTileArgs) {
         const tile = new InstanceTile(args);
 
-        this.poseTileMap.set(pos.toString(), tile);
+        this.poseTileMap.set(pos.toStringId(), tile);
 
         const tileList = this.idTileMap.get(tile.rawTileId);
         tileList ? tileList.push(tile) : this.idTileMap.set(tile.rawTileId, [tile]);
@@ -92,7 +92,7 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
     }
 
     getTileByPos(pos:Cord2D): InstanceTile {
-        const tile = this.poseTileMap.get(pos.toString());
+        const tile = this.poseTileMap.get(pos.toStringId());
         if (tile) {
             return tile;
         }
@@ -148,25 +148,25 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
     /**
      * 
      * @param posTileMap 
-     * @param defaultTileId 
+     * @param unassignedTileId 
      * @param maxPos the cordinate boundary of the posTileMap: {maxX, maxY}
      * @returns a dictionary which key is number of interests tiles arround an tile wihch tile pos is p, 
      * and value is an array of {p: {the rawTile id of the interests tile around it with direction to p as index}}
      * 
      */
-    public static calculateEnpropyPerPos(posTileMap:Map<string,InstanceTile>, defaultTileId: string, maxPos:Cord2D): Map<number, {rawPos: string, associateTiles: WFC2DInterestTileInfo[]}[]> {
+    public static calculateEnpropyPerPos(posTileMap:Map<string,InstanceTile>, unassignedTileId: string, maxPos:Cord2D): Map<number, {rawPos: string, associateTiles: WFC2DInterestTileInfo[]}[]> {
         const map = new Map<number, {rawPos: string, associateTiles: WFC2DInterestTileInfo[]}[]>();
         for (const [rawCord, tile] of posTileMap) {
             const interestTilesInfos: WFC2DInterestTileInfo[] = [];
 
-            if (tile.rawTileId !== defaultTileId) {
+            if (tile.rawTileId === unassignedTileId) {
                 const cord: Cord2D = Cord2D.fromStringId(rawCord);
                 const interestsPoses = InstanceTileContainer2D.getPosesOfInsterestsOnPosWithDirection(cord, maxPos);
                 let entropyNum = 0;
                 for (const posDir of interestsPoses) {
                     const interestsPosTile = posTileMap.get(posDir.pos.toStringId());
                     if (interestsPosTile) {
-                        if (interestsPosTile.rawTileId !== defaultTileId) {
+                        if (interestsPosTile.rawTileId !== unassignedTileId) {
                             entropyNum++;
                             interestTilesInfos.push({
                                 rawTileId: interestsPosTile.rawTileId,
@@ -198,6 +198,7 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
         const entropyPosMap = InstanceTileContainer2D.calculateEnpropyPerPos(posTileMap, defaultTileId, maxPos);
         let maxInverseEntropy = Number.NEGATIVE_INFINITY;
         let posInterestsTileInfosObject: {rawPos: string, associateTiles: WFC2DInterestTileInfo[]}[] = [];
+
         for (const [entropy, posIds] of entropyPosMap) {
             if (entropy>maxInverseEntropy) {
                 maxInverseEntropy = entropy;
@@ -231,6 +232,7 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
             
             const posInterestsTileInfosObject: {rawPos: string, associateTiles: WFC2DInterestTileInfo[]} = randomItemFromArrayStrict(maxInverseEntropyPoses);    
 
+            console.log(`PITIO: rawPos: ${posInterestsTileInfosObject.rawPos}, IInfo: ${JSON.stringify(posInterestsTileInfosObject.associateTiles)}`);
             let chosenRawTileData: {rawTileId: string, rotation:MetricRotationAngle} | null = null;
             
 
@@ -242,8 +244,8 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
             }
             else {
                 const tileInfoAt0 = posInterestsTileInfosObject.associateTiles[0];
-                const absoluteDirectionOfITile0ToThis = absoluteDirectionFromRotatedDirection(tileInfoAt0.relativeDirection, tileInfoAt0.rotation);
-                const allConnectableRawTilesIdDirs0 = this.rawTileContainer.getAllConnectableTilesId(tileInfoAt0.rawTileId, OppositeDirection[absoluteDirectionOfITile0ToThis]);
+                const absoluteDirectionOfITile0ToThis = absoluteDirectionFromRotatedDirection(OppositeDirection[tileInfoAt0.relativeDirection], tileInfoAt0.rotation);
+                const allConnectableRawTilesIdDirs0 = this.rawTileContainer.getAllConnectableTilesId(tileInfoAt0.rawTileId, absoluteDirectionOfITile0ToThis);
                 let possibleRawTileDatas: {rawTileId: string, rotation:MetricRotationAngle}[] = allConnectableRawTilesIdDirs0.map((idDir)=> {
                     return {
                         rawTileId:idDir.id,
@@ -252,8 +254,8 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
                 })
 
                 for (const interestTilesInfo of posInterestsTileInfosObject.associateTiles) {
-                    const absoluteDirectionOfITileToThis = absoluteDirectionFromRotatedDirection(interestTilesInfo.relativeDirection, interestTilesInfo.rotation);
-                    const allConnectableRawTilesIdDirs = this.rawTileContainer.getAllConnectableTilesId(interestTilesInfo.rawTileId, OppositeDirection[absoluteDirectionOfITileToThis]);
+                    const absoluteDirectionOfITileToThis = absoluteDirectionFromRotatedDirection(OppositeDirection[interestTilesInfo.relativeDirection], interestTilesInfo.rotation);
+                    const allConnectableRawTilesIdDirs = this.rawTileContainer.getAllConnectableTilesId(interestTilesInfo.rawTileId, absoluteDirectionOfITileToThis);
                     const allConnectableRawTileData:{rawTileId: string, rotation:MetricRotationAngle}[] = allConnectableRawTilesIdDirs.map((idDir)=> {
                         return {
                             rawTileId:idDir.id,
@@ -265,6 +267,8 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
                     );
                 }
 
+                console.log(`possible raw tiles: ${possibleRawTileDatas.map(x=>{return JSON.stringify(x)})}`);
+
                 chosenRawTileData = randomItemFromArrayGeneral(possibleRawTileDatas);
             }
              
@@ -272,6 +276,8 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
                 // render instance tile at pos with chosenRawTileData
                 this.addTileByRawId(Cord2D.fromStringId(posInterestsTileInfosObject.rawPos), chosenRawTileData.rawTileId, chosenRawTileData.rotation);
             } else {
+                console.log("Fail to WFC");
+                return;
                 // back trace
             }
         }

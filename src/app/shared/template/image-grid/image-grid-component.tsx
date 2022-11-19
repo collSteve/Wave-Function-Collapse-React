@@ -13,7 +13,8 @@ export interface ImageGridProps {
     gridHeight:number,
     imageWidth:number,
     imageHeight:number,
-    imageGrid: IImageGrid
+    imageGrid: IImageGrid,
+    verticleFlip?:boolean
 }
 
 export default class ImageGridComponent extends React.Component<ImageGridProps> {
@@ -47,6 +48,10 @@ export default class ImageGridComponent extends React.Component<ImageGridProps> 
                 row.push(<img key={pos.toString()} style={cellStyle} src={image.imageAddress} alt=""/>);
             }
             images.push(<div key={`row: ${y}`} className={appStyle.image_grid_row}>{[...row]}</div>)
+        }
+
+        if (this.props.verticleFlip) {
+            images.reverse();
         }
 
         return (

@@ -49,7 +49,16 @@ export function rotationByRotatingDirA2B(dirA:MetricDirection2D, dirB: MetricDir
     const dirAIndex = METRIC_DIRECTION_ORDER.findIndex((item)=>item===dirA);
     const dirBIndex = METRIC_DIRECTION_ORDER.findIndex((item)=>item===dirB);
 
-    const stepToRotate = (dirBIndex - dirAIndex) % METRIC_DIRECTION_ORDER.length;
+    const stepToRotate = (4+dirBIndex - dirAIndex) % METRIC_DIRECTION_ORDER.length;
+    
+    return index2MetricRotation[stepToRotate];
+}
+
+export function rotationByRotatingDirA2BCW(dirA:MetricDirection2D, dirB: MetricDirection2D): MetricRotationAngle {
+    const dirAIndex = METRIC_DIRECTION_ORDER.findIndex((item)=>item===dirA);
+    const dirBIndex = METRIC_DIRECTION_ORDER.findIndex((item)=>item===dirB);
+
+    const stepToRotate = (4+dirAIndex - dirBIndex) % METRIC_DIRECTION_ORDER.length;
     
     return index2MetricRotation[stepToRotate];
 }

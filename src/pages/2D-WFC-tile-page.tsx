@@ -9,6 +9,9 @@ import { RawTileContainer } from '../app/WFC/models/rawTileContainer';
 import { MetricRotationAngle } from '../utils/enums';
 import { Cord2D } from '../utils/standard-models';
 
+//style
+import Button from '@mui/material/Button';
+
 interface WFCTilePage2DProps{
     gridWidth:number,
     gridHeight:number,
@@ -59,7 +62,16 @@ export default class WFCTilePage2D extends React.Component<WFCTilePage2DProps, W
             <div>
                 <div>Height: {this.instanceContainer.height}, Width: {this.instanceContainer.width}</div>
                 <button onClick={()=>this.onRotationClicked()}>Rotation</button>
+
+                <Button variant="contained"
+                onClick={()=>{
+                    this.instanceContainer.setup();
+                    this.instanceContainer.wfcGeneration();
+                    this.setState({instanceContainer: this.instanceContainer});
+                }}
+                >Process WFC</Button>
                 <ImageGridComponent 
+                    verticleFlip={true}
                     gridHeight={this.props.gridHeight} 
                     gridWidth={this.props.gridWidth}
                     imageGrid={this.state.instanceContainer}
