@@ -33,10 +33,20 @@ export default class ImageGridComponent extends React.Component<ImageGridProps> 
     render(): React.ReactNode {
         let images = [];
 
+        let xy2Pos: (x:number,y:number)=>Cord2D = (x:number, y:number)=>{
+            return new Cord2D(x,y);
+        };
+
+        if (this.props.verticleFlip) {
+            xy2Pos = (x:number, y:number)=>{
+                return new Cord2D(x,this.props.gridHeight - y - 1);
+            };
+        }
+
         for (let y=0; y<this.gridHeight; y++) {
             let row = [];
             for (let x=0; x<this.gridWidth; x++) {
-                const pos = new Cord2D(x,y);
+                const pos = xy2Pos(x,y);
                 const image = this.imageGrid.getImageByPos(pos);
                 const cellStyle = {
                     margin:0,
@@ -50,9 +60,7 @@ export default class ImageGridComponent extends React.Component<ImageGridProps> 
             images.push(<div key={`row: ${y}`} className={appStyle.image_grid_row}>{[...row]}</div>)
         }
 
-        if (this.props.verticleFlip) {
-            images.reverse();
-        }
+        
 
         return (
             <div>

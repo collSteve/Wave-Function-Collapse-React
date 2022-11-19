@@ -104,6 +104,19 @@ export class RawTile extends Tile {
         this.connector.setConnection(direction, connection);
     }
 
+    /**
+     * requires: connections is an array with length of 4
+     * 
+     * set up connections by passing in connections in order of up, right, down, left (clock-wise)
+     * @param connections an array of conections strings by the order of [up connection, right, down left]
+     */
+    setConnectionByArray(connections: string[][]) {
+        this.setConnection(MetricDirection2D.UP, connections[0]);
+        this.setConnection(MetricDirection2D.RIGHT, connections[1]);
+        this.setConnection(MetricDirection2D.DOWN, connections[2]);
+        this.setConnection(MetricDirection2D.LEFT, connections[3]);
+    }
+
     get image(): ImageModel {
         return new ImageModel(this.imageAddress);
     }

@@ -46,14 +46,9 @@ export default class WFCTilePage2D extends React.Component<WFCTilePage2DProps, W
         this.instanceContainer = new InstanceTileContainer2D(instanceTilesArgs);
 
         this.state = {
-            tileSize: 50,
+            tileSize: 40,
             instanceContainer: this.instanceContainer
         };
-    }
-
-    onRotationClicked() {
-        this.instanceContainer.rotateTileByPos(new Cord2D(0,0), MetricRotationAngle.CW1);
-        this.setState({instanceContainer: this.instanceContainer});
     }
 
     render(): React.ReactNode {
@@ -61,7 +56,6 @@ export default class WFCTilePage2D extends React.Component<WFCTilePage2DProps, W
         return (
             <div>
                 <div>Height: {this.instanceContainer.height}, Width: {this.instanceContainer.width}</div>
-                <button onClick={()=>this.onRotationClicked()}>Rotation</button>
 
                 <Button variant="contained"
                 onClick={()=>{

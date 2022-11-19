@@ -53,6 +53,12 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
         }
     }
 
+    changeWidthHeight(width:number, height:number) {
+        this._width = width;
+        this._height = height;
+        this.setup();
+    }
+
     [Symbol.iterator](): Iterator<InstanceTile, any, undefined> {
         return this.poseTileMap.values();
     }
