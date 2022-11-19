@@ -1,0 +1,24 @@
+{
+    "tiles":[
+        {
+            "filepath": "corner.png",
+            "connectors":[["B"],["B"],["A"],["A"]]
+        },
+        {
+            "filepath": "cross.png",
+            "connectors":[["B"],["B"],["B"],["B"]]
+        },
+        {
+            "filepath": "empty.png",
+            "connectors":[["A"],["A"],["A"],["A"]]
+        },
+        {
+            "filepath": "line.png",
+            "connectors":[["A"],["B"],["A"],["B"]]
+        },
+        {
+            "filepath": "t.png",
+            "connectors":[["A"],["B"],["B"],["B"]]
+        }
+    ]
+}

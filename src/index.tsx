@@ -12,6 +12,7 @@ import { WFCStore } from './app/services/wfc-raw-tile-container';
 import { RawTileArgs } from './app/WFC/models/rawTile';
 import WFCTRawTilePage2D from './pages/2D-raw-tile-page';
 import { MetricDirection2D } from './utils/enums';
+import { TileSetStructureFileReader } from './app/WFC/persistence/tile-set-structure-file-reader';
 
 const DI = {
   wfc_store: new WFCStore()
@@ -74,19 +75,22 @@ DI.wfc_store.rawTileContainer.getTileById(rawIdw4).setConnection(MetricDirection
 DI.wfc_store.rawTileContainer.getTileById(rawIdw4).setConnection(MetricDirection2D.LEFT, ["A"]);
 */
 
-const rawIdk1 = DI.wfc_store.rawTileContainer.addTileByImageAddress(process.env.PUBLIC_URL + '/source-files/tilesets/Knots/corner.png');
-const rawIdk2 = DI.wfc_store.rawTileContainer.addTileByImageAddress(process.env.PUBLIC_URL + '/source-files/tilesets/Knots/cross.png');
-const rawIdk3 = DI.wfc_store.rawTileContainer.addTileByImageAddress(process.env.PUBLIC_URL + '/source-files/tilesets/Knots/empty.png');
-const rawIdk4 = DI.wfc_store.rawTileContainer.addTileByImageAddress(process.env.PUBLIC_URL + '/source-files/tilesets/Knots/line.png');
-const rawIdk5 = DI.wfc_store.rawTileContainer.addTileByImageAddress(process.env.PUBLIC_URL + '/source-files/tilesets/Knots/t.png');
+// const rawIdk1 = DI.wfc_store.rawTileContainer.addTileByImageAddress(process.env.PUBLIC_URL + '/source-files/tilesets/Knots/corner.png');
+// const rawIdk2 = DI.wfc_store.rawTileContainer.addTileByImageAddress(process.env.PUBLIC_URL + '/source-files/tilesets/Knots/cross.png');
+// const rawIdk3 = DI.wfc_store.rawTileContainer.addTileByImageAddress(process.env.PUBLIC_URL + '/source-files/tilesets/Knots/empty.png');
+// const rawIdk4 = DI.wfc_store.rawTileContainer.addTileByImageAddress(process.env.PUBLIC_URL + '/source-files/tilesets/Knots/line.png');
+// const rawIdk5 = DI.wfc_store.rawTileContainer.addTileByImageAddress(process.env.PUBLIC_URL + '/source-files/tilesets/Knots/t.png');
 
-DI.wfc_store.rawTileContainer.getTileById(rawIdk1).setConnectionByArray([["B"],['B'],['A'],['A']]);
-DI.wfc_store.rawTileContainer.getTileById(rawIdk2).setConnectionByArray([["B"],['B'],['B'],['B']]);
-DI.wfc_store.rawTileContainer.getTileById(rawIdk3).setConnectionByArray([["A"],['A'],['A'],['A']]);
-DI.wfc_store.rawTileContainer.getTileById(rawIdk4).setConnectionByArray([["A"],['B'],['A'],['B']]);
-DI.wfc_store.rawTileContainer.getTileById(rawIdk5).setConnectionByArray([["A"],['B'],['B'],['B']]);
+// DI.wfc_store.rawTileContainer.getTileById(rawIdk1).setConnectionByArray([["B"],['B'],['A'],['A']]);
+// DI.wfc_store.rawTileContainer.getTileById(rawIdk2).setConnectionByArray([["B"],['B'],['B'],['B']]);
+// DI.wfc_store.rawTileContainer.getTileById(rawIdk3).setConnectionByArray([["A"],['A'],['A'],['A']]);
+// DI.wfc_store.rawTileContainer.getTileById(rawIdk4).setConnectionByArray([["A"],['B'],['A'],['B']]);
+// DI.wfc_store.rawTileContainer.getTileById(rawIdk5).setConnectionByArray([["A"],['B'],['B'],['B']]);
 
+TileSetStructureFileReader.readFromJSON(`${process.env.PUBLIC_URL}/source-files/tilesets/Circuit`,
+  "structure.json", DI.wfc_store.rawTileContainer).then(()=>{
 
+    
 DI.wfc_store.rawTileContainer.initializaConnectorTileMap();
 
 const root = ReactDOM.createRoot(
@@ -109,3 +113,7 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+});
+
+

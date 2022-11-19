@@ -19,6 +19,11 @@ export class RawTileContainer implements IRawTileContainer {
         this.connectorTileMap = new ConnectorTileMap(this);
     }
 
+    reset() {
+        this.idTileMap = new Map();
+        this.connectorTileMap = new ConnectorTileMap(this);
+    }
+
     [Symbol.iterator](): Iterator<[string,RawTile]> {
         return this.idTileMap[Symbol.iterator]();
     }
