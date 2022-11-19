@@ -3,6 +3,7 @@ import { rotation } from "../app/shared/utils/style/rotation";
 import { RawTileContainer } from "../app/WFC/models/rawTileContainer";
 import { RawTile } from "../models/wfc/tile";
 import { MetricDirection2D } from "../utils/enums";
+import ConnectorEditComponent from "../app/WFC/components/raw-tile-page/connector-edit";
 
 //style
 import Button from '@mui/material/Button';
@@ -36,6 +37,10 @@ export default class WFCTRawTilePage2D extends React.Component<WFCRawTilePage2DP
 
     }
 
+    rerenderRawTileContainer() {
+        this.setState({rawTileContainer: this.rawTileContainer});
+    }
+
     render(): React.ReactNode {
         const imageSize = 50;
         const allImages = [];
@@ -63,17 +68,31 @@ export default class WFCTRawTilePage2D extends React.Component<WFCRawTilePage2DP
 
                 <div>
                     <p>connectors:</p>
-                    <div>
-                            <p>Up</p>
-                            <TextField
-                                id="standard-disabled"
-                                type="text"
-                                label="Up Connector"
-                                variant="outlined"
-                                value={rawTile.upConnection} onChange={()=>{}}
-                                />
-                            <Button variant="contained" onClick={()=>{}}>change</Button>
-                        
+                    <div style={{display:"flex", flexDirection:"column", gap:"10px"}}>
+                        <ConnectorEditComponent 
+                            label="Up Connector" 
+                            connectorName="Up"
+                            currentConnection={rawTile.upConnection.toString()}
+                            onEdit={(a:string[])=>{rawTile.setConnection(MetricDirection2D.UP, a); this.rerenderRawTileContainer()}}/>
+
+                        <ConnectorEditComponent 
+                            label="Right Connector" 
+                            connectorName="Right"
+                            currentConnection={rawTile.rightConnection.toString()}
+                            onEdit={(a:string[])=>{rawTile.setConnection(MetricDirection2D.RIGHT, a); this.rerenderRawTileContainer()}}/>
+
+                        <ConnectorEditComponent 
+                            label="Down Connector" 
+                            connectorName="Down"
+                            currentConnection={rawTile.downConnection.toString()}
+                            onEdit={(a:string[])=>{rawTile.setConnection(MetricDirection2D.DOWN, a); this.rerenderRawTileContainer()}}/>
+
+                        <ConnectorEditComponent     
+                            label="Left Connector" 
+                            connectorName="Left"
+                            currentConnection={rawTile.leftConnection.toString()}
+                            onEdit={(a:string[])=>{rawTile.setConnection(MetricDirection2D.LEFT, a); this.rerenderRawTileContainer()}}/>
+                            
                     </div>
                 </div>
                 <Button variant="contained" onClick={()=>{
