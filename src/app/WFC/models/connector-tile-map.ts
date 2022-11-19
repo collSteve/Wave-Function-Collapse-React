@@ -57,7 +57,7 @@ export class ConnectorTileMap {
             }
         }
 
-        console.log(this.idDirMap);
+        // console.log(this.idDirMap);
     }
 
     getAllConnectableTiles(id:string, direction:MetricDirection2D): IdDirData[] {

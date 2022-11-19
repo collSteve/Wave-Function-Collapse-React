@@ -53,22 +53,6 @@ export default class WFCTilePage2D extends React.Component<WFCTilePage2DProps, W
 
     render(): React.ReactNode {
         const image = new ImageModel("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg", 120);
-        
-        console.log(`json!${process.env.PUBLIC_URL}/source-files/castle.json`);
-
-        fetch(`${process.env.PUBLIC_URL}/source-files/tilesets/castle.json` ,{
-                headers : { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-                })
-            .then(function(response){
-                console.log(response)
-                return response.json();
-            })
-            .then(function(myJson) {
-                console.log(myJson);
-            });
 
         return (
             <div>

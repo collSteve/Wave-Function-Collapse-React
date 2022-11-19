@@ -87,7 +87,7 @@ DI.wfc_store.rawTileContainer.getTileById(rawIdw4).setConnection(MetricDirection
 // DI.wfc_store.rawTileContainer.getTileById(rawIdk4).setConnectionByArray([["A"],['B'],['A'],['B']]);
 // DI.wfc_store.rawTileContainer.getTileById(rawIdk5).setConnectionByArray([["A"],['B'],['B'],['B']]);
 
-TileSetStructureFileReader.readFromJSON(`${process.env.PUBLIC_URL}/source-files/tilesets/Circuit`,
+TileSetStructureFileReader.readFromJSON(`${process.env.PUBLIC_URL}/source-files/tilesets/Knots`,
   "structure.json", DI.wfc_store.rawTileContainer).then(()=>{
 
     
