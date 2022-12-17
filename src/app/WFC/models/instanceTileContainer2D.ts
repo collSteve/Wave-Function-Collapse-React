@@ -238,7 +238,7 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
             
             const posInterestsTileInfosObject: {rawPos: string, associateTiles: WFC2DInterestTileInfo[]} = randomItemFromArrayStrict(maxInverseEntropyPoses);    
 
-            console.log(`PITIO: rawPos: ${posInterestsTileInfosObject.rawPos}, IInfo: ${JSON.stringify(posInterestsTileInfosObject.associateTiles)}`);
+            // console.log(`PITIO: rawPos: ${posInterestsTileInfosObject.rawPos}, IInfo: ${JSON.stringify(posInterestsTileInfosObject.associateTiles)}`);
             let chosenRawTileData: {rawTileId: string, rotation:MetricRotationAngle} | null = null;
             
 
@@ -273,7 +273,7 @@ export class InstanceTileContainer2D implements IInstanceTileContainer2D, IImage
                     );
                 }
 
-                console.log(`possible raw tiles: ${possibleRawTileDatas.map(x=>{return JSON.stringify(x)})}`);
+                // console.log(`possible raw tiles: ${possibleRawTileDatas.map(x=>{return JSON.stringify(x)})}`);
 
                 chosenRawTileData = randomItemFromArrayGeneral(possibleRawTileDatas);
             }

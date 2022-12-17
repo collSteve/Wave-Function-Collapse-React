@@ -102,7 +102,7 @@ root.render(
       <Route path="/" element={<App />}>
         <Route path="/" element={<HomePage/>}></Route>
         <Route path="sudoku" element={<SudokuPage />} />
-        <Route path="WFC-tile-2d" element={<WFCTilePage2D gridWidth={20} gridHeight={20} wfcStore={DI.wfc_store} />} />
+        <Route path="WFC-tile-2d" element={<WFCTilePage2D gridWidth={15} gridHeight={15} wfcStore={DI.wfc_store} />} />
         <Route path="WFC-raw-tile-2d" element={<WFCTRawTilePage2D rawTileContainer={DI.wfc_store.rawTileContainer} />} />
       </Route>
     </Routes>

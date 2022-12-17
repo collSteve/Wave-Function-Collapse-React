@@ -27,8 +27,8 @@ class App extends React.Component {
 
   render() {
     const pages: {linkName:string, route:string}[] = [
-      {linkName: "Home", route:"/"},
-      {linkName: "Soduku", route:"/sudoku"},
+      // {linkName: "Home", route:"/"},
+      // {linkName: "Soduku", route:"/sudoku"},
       {linkName: "2D WFC", route:"/WFC-tile-2d"},
       {linkName: "raw tile 2D WFC", route:"/WFC-raw-tile-2d"},
     ];
